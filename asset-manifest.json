@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-homework-template/static/css/main.37bbd6a3.css",
+    "main.js": "/react-homework-template/static/js/main.fe35898e.js",
+    "index.html": "/react-homework-template/index.html",
+    "static/media/magnifying-glass.svg": "/react-homework-template/static/media/magnifying-glass.dd23ce840e35ec0128c21f0e3ed44304.svg",
+    "static/media/x.svg": "/react-homework-template/static/media/x.88630209f89508bcfb0464d3420c465f.svg",
+    "main.37bbd6a3.css.map": "/react-homework-template/static/css/main.37bbd6a3.css.map",
+    "main.fe35898e.js.map": "/react-homework-template/static/js/main.fe35898e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.37bbd6a3.css",
+    "static/js/main.fe35898e.js"
+  ]
+}
