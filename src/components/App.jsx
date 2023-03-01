@@ -11,6 +11,7 @@ import ErrorField from 'shared/ErrorField/ErrorField';
 class App extends Component {
   state = {
     images: [],
+    total: 0,
     search: '',
     page: 1,
     loading: false,
@@ -18,11 +19,7 @@ class App extends Component {
     imgId: null,
   };
 
-  componentDidMount() {
-    this.updateImages();
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(_, prevState) {
     const { search, page } = this.state;
 
     if (prevState.search !== search || prevState.page !== page) {
@@ -31,13 +28,13 @@ class App extends Component {
   }
 
   handleSubmit = value => {
-    if (value) {
+    if (value && value !== this.state.search) {
       this.setState({ search: value, page: 1, images: [] });
     }
   };
 
   handleLoadMoreClick = () => {
-    this.setState((state, props) => {
+    this.setState((state, _) => {
       return { page: state.page + 1 };
     });
   };
@@ -60,12 +57,14 @@ class App extends Component {
         const data = await getImages(search, page);
 
         if (!data.hits.length) {
+          this.setState({ total: 0 });
           throw new Error('Nothing found!');
         }
 
-        this.setState((prevState, props) => {
+        this.setState((prevState, _) => {
           return {
             images: [...prevState.images, ...data.hits],
+            total: data.total,
             error: null,
           };
         });
@@ -78,21 +77,23 @@ class App extends Component {
   }
 
   render() {
-    const { images, imgId, loading, error } = this.state;
+    const { images, total, imgId, loading, error } = this.state;
     const img = images.find(img => img.id === imgId);
+
+    const showButtonLoadMore = Boolean(images.length < total);
 
     return (
       <div className="container">
         <Searchbar onSubmit={this.handleSubmit} />
         <ImageGallery images={images} onClick={this.handleImgOpen} />
         {loading && <Loader />}
-        {Boolean(images.length) && (
+        {showButtonLoadMore && (
           <LoadMoreButton text="Load more" onClick={this.handleLoadMoreClick} />
         )}
         {error && <ErrorField error={error.message} />}
 
         {imgId && (
-          <Modal isOpen={imgId} onClose={this.handleImgClose}>
+          <Modal isOpen={Boolean(imgId)} onClose={this.handleImgClose}>
             <img
               src={img.largeImageURL}
               alt={img.tag}

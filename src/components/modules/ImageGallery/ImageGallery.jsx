@@ -25,7 +25,7 @@ export default ImageGallery;
 ImageGallery.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       src: PropTypes.string,
       alt: PropTypes.string,
       onClick: PropTypes.func,
